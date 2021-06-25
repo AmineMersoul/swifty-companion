@@ -27,7 +27,8 @@ class Api {
         
         if (access_token != nil) {
             print("retrive token from local storage: \(access_token ?? "")")
-            completion(Token(access_token: "access_token", token_type: "", expires_in: 0, scope: "", created_at: 0, error: "", error_description: ""))
+            completion(Token(access_token: access_token, token_type: "", expires_in: 0, scope: "", created_at: 0, error: "", error_description: ""))
+            return
         }
         
         let parameters:[String: Any] = ["grant_type": "client_credentials", "client_id": clientId, "client_secret": clientSecret]

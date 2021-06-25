@@ -71,17 +71,26 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                 child.view.removeFromSuperview()
                 child.removeFromParent()
                 
+                if (user.login?.isEmpty ?? true) {
+                    // create the alert
+                    let alert = UIAlertController(title: "Login Wrong", message: "Please enter a valid login.", preferredStyle: UIAlertController.Style.alert)
+                    // add an action (button)
+                    alert.addAction(UIAlertAction(title: "Got it", style: UIAlertAction.Style.default, handler: nil))
+                    // show the alert
+                    self.present(alert, animated: true, completion: nil)
+                }
+                
                 // setting data to UI
-                self.loginLabel.text = user.login!
+                self.loginLabel.text = user.login ?? ""
                 self.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.level ?? "NAN")
-                self.pointLabel.text = String(user.correction_point!)
-                self.campusLabel.text = user.campus?[0].name!
-                self.emailLabel.text = user.email!
+                self.pointLabel.text = String(user.correction_point ?? 0)
+                self.campusLabel.text = user.campus?[0].name ?? ""
+                self.emailLabel.text = user.email ?? ""
                 self.skillsLabel.text = "Skills:"
                 self.projectsLabel.text = "Projects:"
                 
                 // loading profile image
-                let image_url = URL(string: user.image_url!)
+                let image_url = URL(string: user.image_url ?? "https://via.placeholder.com/300")
                 self.profileImage.load(url: image_url!)
                 // reloading table view
                 self.user = user
