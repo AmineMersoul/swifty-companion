@@ -15,6 +15,8 @@
 		79452C2D2685D212004C11A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79452C2B2685D212004C11A1 /* LaunchScreen.storyboard */; };
 		798531962685EB8E0055E2CC /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798531952685EB8E0055E2CC /* DashboardViewController.swift */; };
 		79853198268627590055E2CC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79853197268627590055E2CC /* User.swift */; };
+		798531A026862BCC0055E2CC /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7985319F26862BCC0055E2CC /* Api.swift */; };
+		798531A226862BF60055E2CC /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798531A126862BF60055E2CC /* Token.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		79452C2E2685D212004C11A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		798531952685EB8E0055E2CC /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		79853197268627590055E2CC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7985319F26862BCC0055E2CC /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
+		798531A126862BF60055E2CC /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,7 @@
 				79452C2E2685D212004C11A1 /* Info.plist */,
 				7985319A268627AE0055E2CC /* ViewController */,
 				798531992686279F0055E2CC /* Model */,
+				7985319F26862BCC0055E2CC /* Api.swift */,
 			);
 			path = "swifty-companion";
 			sourceTree = "<group>";
@@ -76,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				79853197268627590055E2CC /* User.swift */,
+				798531A126862BF60055E2CC /* Token.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -160,6 +166,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				798531A026862BCC0055E2CC /* Api.swift in Sources */,
+				798531A226862BF60055E2CC /* Token.swift in Sources */,
 				79452C252685D211004C11A1 /* SearchViewController.swift in Sources */,
 				79452C212685D211004C11A1 /* AppDelegate.swift in Sources */,
 				79452C232685D211004C11A1 /* SceneDelegate.swift in Sources */,
