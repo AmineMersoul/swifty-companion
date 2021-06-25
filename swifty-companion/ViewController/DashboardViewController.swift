@@ -33,6 +33,9 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var projectTableView: UITableView!
+    @IBOutlet weak var skillsLabel: UILabel!
+    @IBOutlet weak var projectsLabel: UILabel!
     
     var login: String = "non";
     let myData = ["first", "second"]
@@ -42,11 +45,13 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         
         // Setting label to empty
-        self.loginLabel.text = ""
-        self.levelLabel.text = ""
-        self.pointLabel.text = ""
-        self.campusLabel.text = ""
-        self.emailLabel.text = ""
+        loginLabel.text = ""
+        levelLabel.text = ""
+        pointLabel.text = ""
+        campusLabel.text = ""
+        emailLabel.text = ""
+        skillsLabel.text = ""
+        projectsLabel.text = ""
         
         let child = SpinnerViewController()
 
@@ -72,30 +77,56 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.pointLabel.text = String(user.correction_point!)
                 self.campusLabel.text = user.campus?[0].name!
                 self.emailLabel.text = user.email!
+                self.skillsLabel.text = "Skills:"
+                self.projectsLabel.text = "Projects:"
+                
                 // loading profile image
                 let image_url = URL(string: user.image_url!)
                 self.profileImage.load(url: image_url!)
                 // reloading table view
                 self.user = user
                 self.tableView.reloadData()
+                self.projectTableView.reloadData()
             }
         }
         
-        let nib = UINib(nibName: "SkillsTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "SkillsTableViewCell")
+        let skillNib = UINib(nibName: "SkillsTableViewCell", bundle: nil)
+        tableView.register(skillNib, forCellReuseIdentifier: "SkillsTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
+        
+        let projectNib = UINib(nibName: "ProjectTableViewCell", bundle: nil)
+        projectTableView.register(projectNib, forCellReuseIdentifier: "ProjectTableViewCell")
+        projectTableView.delegate = self
+        projectTableView.dataSource = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return user.cursus_users?.last?.skills?.count ?? 0
+        if(tableView == self.tableView){
+            return user.cursus_users?.last?.skills?.count ?? 0
+        }
+        return user.projects_users?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SkillsTableViewCell", for: indexPath) as! SkillsTableViewCell
-        cell.skillLabel?.text = user.cursus_users?.last?.skills?[indexPath.row].name
-        cell.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.skills?[indexPath.row].level ?? "NAN")
-        return cell
+         if(tableView == self.tableView){
+            let skillCell = tableView.dequeueReusableCell(withIdentifier: "SkillsTableViewCell", for: indexPath) as! SkillsTableViewCell
+            skillCell.skillLabel?.text = user.cursus_users?.last?.skills?[indexPath.row].name
+            skillCell.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.skills?[indexPath.row].level ?? "NAN")
+            return skillCell
+        }
+        let projectCell = tableView.dequeueReusableCell(withIdentifier: "ProjectTableViewCell", for: indexPath) as! ProjectTableViewCell
+        projectCell.projectLabel?.text = user.projects_users?[indexPath.row].project?.name
+        projectCell.markLabel.text = String(user.projects_users?[indexPath.row].final_mark ?? 0)
+        let finalMark: Int = user.projects_users?[indexPath.row].final_mark ?? 0
+        if (finalMark < 100) {
+            projectCell.validatedImageView.image = UIImage(systemName: "xmark");
+            projectCell.validatedImageView.tintColor = UIColor.red
+        } else {
+            projectCell.validatedImageView.image = UIImage(systemName: "checkmark");
+            projectCell.validatedImageView.tintColor = UIColor.green
+        }
+        return projectCell
     }
     
 }

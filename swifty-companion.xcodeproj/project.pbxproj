@@ -19,6 +19,8 @@
 		798531A226862BF60055E2CC /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798531A126862BF60055E2CC /* Token.swift */; };
 		798531A7268641B70055E2CC /* SkillsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798531A5268641B70055E2CC /* SkillsTableViewCell.swift */; };
 		798531A8268641B70055E2CC /* SkillsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 798531A6268641B70055E2CC /* SkillsTableViewCell.xib */; };
+		798531AC26864EDE0055E2CC /* ProjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798531AA26864EDE0055E2CC /* ProjectTableViewCell.swift */; };
+		798531AD26864EDE0055E2CC /* ProjectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 798531AB26864EDE0055E2CC /* ProjectTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		798531A126862BF60055E2CC /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		798531A5268641B70055E2CC /* SkillsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillsTableViewCell.swift; sourceTree = "<group>"; };
 		798531A6268641B70055E2CC /* SkillsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SkillsTableViewCell.xib; sourceTree = "<group>"; };
+		798531AA26864EDE0055E2CC /* ProjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTableViewCell.swift; sourceTree = "<group>"; };
+		798531AB26864EDE0055E2CC /* ProjectTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +109,8 @@
 			children = (
 				798531A5268641B70055E2CC /* SkillsTableViewCell.swift */,
 				798531A6268641B70055E2CC /* SkillsTableViewCell.xib */,
+				798531AA26864EDE0055E2CC /* ProjectTableViewCell.swift */,
+				798531AB26864EDE0055E2CC /* ProjectTableViewCell.xib */,
 			);
 			path = ViewCell;
 			sourceTree = "<group>";
@@ -169,6 +175,7 @@
 			files = (
 				79452C2D2685D212004C11A1 /* LaunchScreen.storyboard in Resources */,
 				798531A8268641B70055E2CC /* SkillsTableViewCell.xib in Resources */,
+				798531AD26864EDE0055E2CC /* ProjectTableViewCell.xib in Resources */,
 				79452C2A2685D212004C11A1 /* Assets.xcassets in Resources */,
 				79452C282685D211004C11A1 /* Main.storyboard in Resources */,
 			);
@@ -182,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				798531A026862BCC0055E2CC /* Api.swift in Sources */,
+				798531AC26864EDE0055E2CC /* ProjectTableViewCell.swift in Sources */,
 				798531A7268641B70055E2CC /* SkillsTableViewCell.swift in Sources */,
 				798531A226862BF60055E2CC /* Token.swift in Sources */,
 				79452C252685D211004C11A1 /* SearchViewController.swift in Sources */,

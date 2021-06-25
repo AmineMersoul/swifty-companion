@@ -20,6 +20,16 @@ class Api {
     }()
     
     func getToken(completion: @escaping (Token) -> ()) {
+        
+        let defaults = UserDefaults.standard
+        
+        let access_token = defaults.string(forKey: "access_token")
+        
+        if (access_token != nil) {
+            print("retrive token from local storage: \(access_token ?? "")")
+            completion(Token(access_token: "access_token", token_type: "", expires_in: 0, scope: "", created_at: 0, error: "", error_description: ""))
+        }
+        
         let parameters:[String: Any] = ["grant_type": "client_credentials", "client_id": clientId, "client_secret": clientSecret]
         
         // token url
@@ -55,6 +65,7 @@ class Api {
                 // decoding from data
                 let token = try JSONDecoder().decode(Token.self, from: data)
                 print("token: \(token.access_token ?? "token")")
+                defaults.set(token.access_token, forKey: "access_token")
                 completion(token)
             } catch let error {
                 print(error.localizedDescription)
@@ -91,8 +102,12 @@ class Api {
                 
                 do {
                     let user = try JSONDecoder().decode(User.self, from: data)
-                    print("we got the user email: \(user.email ?? "email")")
-                    completion(user)
+                    if (user.error?.isEmpty ?? true) {
+                        print("we got the user email: \(user.email ?? "email")")
+                        completion(user)
+                    } else {
+                        print("need new token")
+                    }
                 } catch let error {
                     print(error.localizedDescription)
                 }

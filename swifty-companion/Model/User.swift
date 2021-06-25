@@ -21,6 +21,8 @@ struct User: Decodable {
     let wallet: Int?
     let cursus_users: [CursusUsers]?
     let campus: [Campus]?
+    let projects_users: [ProjectsUsers]?
+    let error: String?
     
     init() {
         self.id = 0
@@ -35,6 +37,8 @@ struct User: Decodable {
         self.wallet = 0
         self.cursus_users = nil
         self.campus = nil
+        self.projects_users = nil
+        self.error = ""
     }
  }
 
@@ -62,4 +66,15 @@ struct Campus: Codable {
     let name: String?
     let country: String?
     let city: String?
+}
+
+struct ProjectsUsers: Codable {
+    let final_mark: Int?
+    let status: String?
+    let project: Project?
+}
+
+struct Project: Codable {
+    let name: String?
+    let cursus_ids: [Int]?
 }
