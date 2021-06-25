@@ -9,17 +9,18 @@
 import Foundation
 
 struct User: Decodable {
-     let id: Int?
-     let email: String?
-     let login: String?
-     let first_name: String?
-     let last_name: String?
-     let phone: String?
-     let displayname: String?
-     let image_url: String?
-     let correction_point: Int?
-     let wallet: Int?
-     let cursus_users: [CursusUsers]?
+    let id: Int?
+    let email: String?
+    let login: String?
+    let first_name: String?
+    let last_name: String?
+    let phone: String?
+    let displayname: String?
+    let image_url: String?
+    let correction_point: Int?
+    let wallet: Int?
+    let cursus_users: [CursusUsers]?
+    let campus: [Campus]?
     
     init() {
         self.id = 0
@@ -33,6 +34,7 @@ struct User: Decodable {
         self.correction_point = 0
         self.wallet = 0
         self.cursus_users = nil
+        self.campus = nil
     }
  }
 
@@ -54,4 +56,10 @@ struct Cursus: Codable {
     let created_at: String?
     let name: String?
     let slug: String?
+}
+
+struct Campus: Codable {
+    let name: String?
+    let country: String?
+    let city: String?
 }

@@ -8,9 +8,29 @@
 
 import UIKit
 
+class SpinnerViewController: UIViewController {
+    var spinner = UIActivityIndicatorView(style: .whiteLarge)
+
+    override func loadView() {
+        view = UIView()
+        view.backgroundColor = UIColor(white: 0, alpha: 0.7)
+
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        view.addSubview(spinner)
+
+        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+}
+
 class DashboardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var levelLabel: UILabel!
+    @IBOutlet weak var pointLabel: UILabel!
     @IBOutlet weak var loginLabel: UILabel!
+    @IBOutlet weak var campusLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     
@@ -21,30 +41,60 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginLabel.adjustsFontSizeToFitWidth = false
-        loginLabel.lineBreakMode = NSLineBreakMode.byTruncatingTail
+        // Setting label to empty
+        self.loginLabel.text = ""
+        self.levelLabel.text = ""
+        self.pointLabel.text = ""
+        self.campusLabel.text = ""
+        self.emailLabel.text = ""
+        
+        let child = SpinnerViewController()
+
+        // add the spinner view controller
+        addChild(child)
+        child.view.frame = view.frame
+        view.addSubview(child.view)
+        child.didMove(toParent: self)
+        
+        //loginLabel.adjustsFontSizeToFitWidth = false
+        //loginLabel.lineBreakMode = NSLineBreakMode.byTruncatingTail
         
         Api.app.getUser(login: self.login) {(user) in
             DispatchQueue.main.async {
-                self.loginLabel.text = "\(user.login!) \(user.email!)"
+                
+                child.willMove(toParent: nil)
+                child.view.removeFromSuperview()
+                child.removeFromParent()
+                
+                // setting data to UI
+                self.loginLabel.text = user.login!
+                self.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.level ?? "NAN")
+                self.pointLabel.text = String(user.correction_point!)
+                self.campusLabel.text = user.campus?[0].name!
+                self.emailLabel.text = user.email!
+                // loading profile image
                 let image_url = URL(string: user.image_url!)
                 self.profileImage.load(url: image_url!)
+                // reloading table view
                 self.user = user
                 self.tableView.reloadData()
             }
         }
         
+        let nib = UINib(nibName: "SkillsTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "SkillsTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return user.cursus_users?.count ?? 0
+        return user.cursus_users?.last?.skills?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = user.cursus_users?[indexPath.row].cursus?.name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SkillsTableViewCell", for: indexPath) as! SkillsTableViewCell
+        cell.skillLabel?.text = user.cursus_users?.last?.skills?[indexPath.row].name
+        cell.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.skills?[indexPath.row].level ?? "NAN")
         return cell
     }
     
