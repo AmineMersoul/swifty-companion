@@ -8,22 +8,6 @@
 
 import UIKit
 
-class SpinnerViewController: UIViewController {
-    var spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-
-    override func loadView() {
-        view = UIView()
-        view.backgroundColor = UIColor(white: 0, alpha: 0.7)
-
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.startAnimating()
-        view.addSubview(spinner)
-
-        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
-}
-
 class DashboardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var levelLabel: UILabel!
@@ -37,8 +21,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var skillsLabel: UILabel!
     @IBOutlet weak var projectsLabel: UILabel!
     
-    var login: String = "non";
-    let myData = ["first", "second"]
+    var login: String = "";
     var user: User = User.init()
     
     override func viewDidLoad() {
@@ -53,6 +36,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         skillsLabel.text = ""
         projectsLabel.text = ""
         
+        // creating spinner
         let spinner = SpinnerViewController()
         // add the spinner view controller
         addChild(spinner)
@@ -69,7 +53,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
                 spinner.removeFromParent()
                 
                 if (user.login?.isEmpty ?? true) {
-                    self.alertError(message: "Please enter a valid login.")
+                    self.alertError(message: "Login not found!")
                 }
                 
                 // setting data to UI
@@ -154,5 +138,21 @@ extension UIImageView {
                 }
             }
         }
+    }
+}
+
+class SpinnerViewController: UIViewController {
+    var spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+
+    override func loadView() {
+        view = UIView()
+        view.backgroundColor = UIColor(white: 0, alpha: 0.4)
+
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        view.addSubview(spinner)
+
+        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }
