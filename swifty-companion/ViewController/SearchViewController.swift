@@ -18,9 +18,9 @@ class SearchViewController: UIViewController {
 
     @IBAction func searchButton(_ sender: Any) {
         let login:String = tf_login.text ?? ""
-        if (login.isEmpty) {
+        if (login.isEmpty || login.contains(" ")) {
             // create the alert
-            let alert = UIAlertController(title: "Login Required", message: "Please enter a login.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Login Required", message: "Please enter a valid login.", preferredStyle: UIAlertController.Style.alert)
             // add an action (button)
             alert.addAction(UIAlertAction(title: "Got it", style: UIAlertAction.Style.default, handler: nil))
             // show the alert

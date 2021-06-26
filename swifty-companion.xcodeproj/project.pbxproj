@@ -80,8 +80,8 @@
 				79452C2E2685D212004C11A1 /* Info.plist */,
 				7985319A268627AE0055E2CC /* ViewController */,
 				798531992686279F0055E2CC /* Model */,
-				7985319F26862BCC0055E2CC /* Api.swift */,
 				798531A9268641BC0055E2CC /* ViewCell */,
+				7985319F26862BCC0055E2CC /* Api.swift */,
 			);
 			path = "swifty-companion";
 			sourceTree = "<group>";

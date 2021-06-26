@@ -60,43 +60,35 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         view.addSubview(spinner.view)
         spinner.didMove(toParent: self)
         
-        if login.contains(" "){
-            alertError(message: "Login Must not contain spaces.")
-            //remove sipnner
-            spinner.willMove(toParent: nil)
-            spinner.view.removeFromSuperview()
-            spinner.removeFromParent()
-        } else {
-            Api.app.getUser(login: self.login) {(user) in
-                DispatchQueue.main.async {
-                    
-                    //remove sipnner
-                    spinner.willMove(toParent: nil)
-                    spinner.view.removeFromSuperview()
-                    spinner.removeFromParent()
-                    
-                    if (user.login?.isEmpty ?? true) {
-                        self.alertError(message: "Please enter a valid login.")
-                    }
-                    
-                    // setting data to UI
-                    self.loginLabel.text = user.login ?? ""
-                    self.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.level ?? "NAN")
-                    self.pointLabel.text = String(user.correction_point ?? 0)
-                    self.campusLabel.text = user.campus?[0].name ?? ""
-                    self.emailLabel.text = user.email ?? ""
-                    self.skillsLabel.text = "Skills:"
-                    self.projectsLabel.text = "Projects:"
-                    
-                    // loading profile image
-                    let image_url = URL(string: user.image_url ?? "https://via.placeholder.com/300")
-                    self.profileImage.load(url: image_url!)
-                    
-                    // reloading table view
-                    self.user = user
-                    self.tableView.reloadData()
-                    self.projectTableView.reloadData()
+        Api.app.getUser(login: self.login) {(user) in
+            DispatchQueue.main.async {
+                
+                //remove sipnner
+                spinner.willMove(toParent: nil)
+                spinner.view.removeFromSuperview()
+                spinner.removeFromParent()
+                
+                if (user.login?.isEmpty ?? true) {
+                    self.alertError(message: "Please enter a valid login.")
                 }
+                
+                // setting data to UI
+                self.loginLabel.text = user.login ?? ""
+                self.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.level ?? "NAN")
+                self.pointLabel.text = String(user.correction_point ?? 0)
+                self.campusLabel.text = user.campus?[0].name ?? ""
+                self.emailLabel.text = user.email ?? ""
+                self.skillsLabel.text = "Skills:"
+                self.projectsLabel.text = "Projects:"
+                
+                // loading profile image
+                let image_url = URL(string: user.image_url ?? "https://via.placeholder.com/300")
+                self.profileImage.load(url: image_url!)
+                
+                // reloading table view
+                self.user = user
+                self.tableView.reloadData()
+                self.projectTableView.reloadData()
             }
         }
         
