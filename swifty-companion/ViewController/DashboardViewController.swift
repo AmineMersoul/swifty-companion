@@ -9,7 +9,7 @@
 import UIKit
 
 class SpinnerViewController: UIViewController {
-    var spinner = UIActivityIndicatorView(style: .whiteLarge)
+    var spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
     override func loadView() {
         view = UIView()
@@ -53,52 +53,54 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         skillsLabel.text = ""
         projectsLabel.text = ""
         
-        let child = SpinnerViewController()
-
+        let spinner = SpinnerViewController()
         // add the spinner view controller
-        addChild(child)
-        child.view.frame = view.frame
-        view.addSubview(child.view)
-        child.didMove(toParent: self)
+        addChild(spinner)
+        spinner.view.frame = view.frame
+        view.addSubview(spinner.view)
+        spinner.didMove(toParent: self)
         
-        //loginLabel.adjustsFontSizeToFitWidth = false
-        //loginLabel.lineBreakMode = NSLineBreakMode.byTruncatingTail
-        
-        Api.app.getUser(login: self.login) {(user) in
-            DispatchQueue.main.async {
-                
-                child.willMove(toParent: nil)
-                child.view.removeFromSuperview()
-                child.removeFromParent()
-                
-                if (user.login?.isEmpty ?? true) {
-                    // create the alert
-                    let alert = UIAlertController(title: "Login Wrong", message: "Please enter a valid login.", preferredStyle: UIAlertController.Style.alert)
-                    // add an action (button)
-                    alert.addAction(UIAlertAction(title: "Got it", style: UIAlertAction.Style.default, handler: nil))
-                    // show the alert
-                    self.present(alert, animated: true, completion: nil)
+        if login.contains(" "){
+            alertError(message: "Login Must not contain spaces.")
+            //remove sipnner
+            spinner.willMove(toParent: nil)
+            spinner.view.removeFromSuperview()
+            spinner.removeFromParent()
+        } else {
+            Api.app.getUser(login: self.login) {(user) in
+                DispatchQueue.main.async {
+                    
+                    //remove sipnner
+                    spinner.willMove(toParent: nil)
+                    spinner.view.removeFromSuperview()
+                    spinner.removeFromParent()
+                    
+                    if (user.login?.isEmpty ?? true) {
+                        self.alertError(message: "Please enter a valid login.")
+                    }
+                    
+                    // setting data to UI
+                    self.loginLabel.text = user.login ?? ""
+                    self.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.level ?? "NAN")
+                    self.pointLabel.text = String(user.correction_point ?? 0)
+                    self.campusLabel.text = user.campus?[0].name ?? ""
+                    self.emailLabel.text = user.email ?? ""
+                    self.skillsLabel.text = "Skills:"
+                    self.projectsLabel.text = "Projects:"
+                    
+                    // loading profile image
+                    let image_url = URL(string: user.image_url ?? "https://via.placeholder.com/300")
+                    self.profileImage.load(url: image_url!)
+                    
+                    // reloading table view
+                    self.user = user
+                    self.tableView.reloadData()
+                    self.projectTableView.reloadData()
                 }
-                
-                // setting data to UI
-                self.loginLabel.text = user.login ?? ""
-                self.levelLabel.text = String(format: "%.2f", user.cursus_users?.last?.level ?? "NAN")
-                self.pointLabel.text = String(user.correction_point ?? 0)
-                self.campusLabel.text = user.campus?[0].name ?? ""
-                self.emailLabel.text = user.email ?? ""
-                self.skillsLabel.text = "Skills:"
-                self.projectsLabel.text = "Projects:"
-                
-                // loading profile image
-                let image_url = URL(string: user.image_url ?? "https://via.placeholder.com/300")
-                self.profileImage.load(url: image_url!)
-                // reloading table view
-                self.user = user
-                self.tableView.reloadData()
-                self.projectTableView.reloadData()
             }
         }
         
+        // set custom cell to table view
         let skillNib = UINib(nibName: "SkillsTableViewCell", bundle: nil)
         tableView.register(skillNib, forCellReuseIdentifier: "SkillsTableViewCell")
         tableView.delegate = self
@@ -108,6 +110,15 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         projectTableView.register(projectNib, forCellReuseIdentifier: "ProjectTableViewCell")
         projectTableView.delegate = self
         projectTableView.dataSource = self
+    }
+    
+    func alertError(message: String) {
+        // create the alert
+        let alert = UIAlertController(title: "Login Wrong", message: message, preferredStyle: UIAlertController.Style.alert)
+        // add an action (button)
+        alert.addAction(UIAlertAction(title: "Got it", style: UIAlertAction.Style.default, handler: nil))
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

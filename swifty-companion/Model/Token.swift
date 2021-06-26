@@ -17,3 +17,9 @@ struct Token: Decodable {
     let error: String?
     let error_description: String?
 }
+
+struct TokenInfo: Decodable {
+    let expires_in_seconds: Int?
+    let created_at: Int?
+    let error: String?
+}

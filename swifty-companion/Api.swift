@@ -14,6 +14,7 @@ class Api {
     let clientId: String = "e87fe820ff06559e6b6a561d2a6f37833f567f8ff54bdd3953dab3249cedc04d"
     let clientSecret: String = "d7f5a08cb998a1faf965e67c8629e937b84c22da4b0196cf128987fdeb16ca87"
     let userUrl: String = "https://api.intra.42.fr/v2/users/"
+    let checkTokenUrl: String = "https://api.intra.42.fr/oauth/token/info"
     
     static let app: Api = {
         return Api()
@@ -27,28 +28,72 @@ class Api {
         
         if (access_token != nil) {
             print("retrive token from local storage: \(access_token ?? "")")
-            completion(Token(access_token: access_token, token_type: "", expires_in: 0, scope: "", created_at: 0, error: "", error_description: ""))
-            return
+            let token = Token(access_token: access_token, token_type: "", expires_in: 0, scope: "", created_at: 0, error: "", error_description: "")
+            
+            // check if valid token
+            self.tokenInfo(token: token) {(validToken) in
+                if (validToken) {
+                    completion(token)
+                    return
+                }
+                
+                let parameters:[String: Any] = ["grant_type": "client_credentials", "client_id": self.clientId, "client_secret": self.clientSecret]
+                
+                // token url
+                let url = URL(string: self.tokenUrl)!
+                
+                //create the session object
+                let session = URLSession.shared
+
+                //now create the URLRequest object using the url object
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST" //set http method as POST
+
+                do {
+                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+                //create dataTask using the session object to send data to the server
+                let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                    guard error == nil else {
+                        return
+                    }
+                    
+                    guard let data = data else {
+                        return
+                    }
+                    
+                    do {
+                        // decoding from data
+                        let token = try JSONDecoder().decode(Token.self, from: data)
+                        print("token: \(token.access_token ?? "token")")
+                        defaults.set(token.access_token, forKey: "access_token")
+                        completion(token)
+                    } catch let error {
+                        print(error.localizedDescription)
+                    }
+                })
+                task.resume()
+            }
         }
-        
-        let parameters:[String: Any] = ["grant_type": "client_credentials", "client_id": clientId, "client_secret": clientSecret]
-        
+    }
+    
+    func tokenInfo (token: Token, completion: @escaping (Bool) -> ()) {
         // token url
-        let url = URL(string: tokenUrl)!
+        let url = URL(string: self.checkTokenUrl)!
         
         //create the session object
         let session = URLSession.shared
 
         //now create the URLRequest object using the url object
         var request = URLRequest(url: url)
-        request.httpMethod = "POST" //set http method as POST
-
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
-        } catch let error {
-            print(error.localizedDescription)
-        }
-
+        
+        request.addValue("Bearer \(token.access_token!)", forHTTPHeaderField: "Authorization")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
 
@@ -63,14 +108,18 @@ class Api {
             }
             
             do {
-                // decoding from data
-                let token = try JSONDecoder().decode(Token.self, from: data)
-                print("token: \(token.access_token ?? "token")")
-                defaults.set(token.access_token, forKey: "access_token")
-                completion(token)
+                let tokenInfo = try JSONDecoder().decode(TokenInfo.self, from: data)
+                if (tokenInfo.error?.isEmpty ?? true) {
+                    print("token checked is valid")
+                    completion(true)
+                } else {
+                    print("token checked is not valid")
+                    completion(false)
+                }
             } catch let error {
                 print(error.localizedDescription)
             }
+            
         })
         task.resume()
     }
@@ -79,13 +128,13 @@ class Api {
         
         getToken() {(token) in
             // token url
-            let url = URL(string: self.userUrl + login)!
+            let url = URL(string: self.userUrl + login)
             
             //create the session object
             let session = URLSession.shared
 
             //now create the URLRequest object using the url object
-            var request = URLRequest(url: url)
+            var request = URLRequest(url: url ?? URL(string: self.userUrl)!)
             
             request.addValue("Bearer \(token.access_token!)", forHTTPHeaderField: "Authorization")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -117,6 +166,5 @@ class Api {
             task.resume()
         }
     }
-    
     
 }
