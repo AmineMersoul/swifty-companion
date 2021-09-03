@@ -2,12 +2,12 @@
 
 This project is an introduction to mobile programming. The goal is to create, an application which will allow you to get info about 42students, using the API
 
-### [Subject PDF](https://drive.google.com/file/d/1_wx0WO1MJtvttHef0_w7IN-jojlZiNw6/view?usp=sharing)
+### [Subject PDF](https://raw.githubusercontent.com/AmineMersoul/swifty-companion/main/Public/swifty-companion.en.subject.pdf?token=ADEZWHOJZJ63CQL6UF7XDULBHOQS2)
 
 # Screenshots
 
-![xcode](https://lh3.googleusercontent.com/d90zn1LqQuZ_Q_xu-PuD_g8glwWiEfGY1Bqp0v2GGHDYK5DQBa-OEK6NqeZBhEqSfS9vW4dAEhZEYl3-MtxD=w2848-h1658)
+![xcode](https://raw.githubusercontent.com/AmineMersoul/swifty-companion/main/Public/Screen%20Shot%202021-07-04%20at%2012.56.37%20PM.png?token=ADEZWHNLKOFSMHOQKQA3S63BHOQWI)
 
-![Main Screen](https://lh4.googleusercontent.com/XdnMihbFqZ6ANVJaALOPhci2fHCfQa6GcWhQh3pUm2cBz_R_kiUbBnbvuiOpuaklrxtBoaAIp7gQFd_CldwX=w3014-h2464)
-![Dashboard](https://lh5.googleusercontent.com/dPsBzm7PXDpeCLhXwr7Ch6Wdm2eI5ITY0vN7XhkJd0sO8WQvDcNfc3TD1n7h-kmAvKkz8PXgsh3RDfBzIHjy=w3014-h1658)
-![dashboard on ipad](https://lh6.googleusercontent.com/nBi6mwaT9Zgnn705Dqme8HHE9D1KOD95cJIqdDSULymx-mNkrlgeo0G6rhEGMk7PJf89BgqRzsWA7rIBwyX2=w2848-h1658)
+![Main Screen](https://raw.githubusercontent.com/AmineMersoul/swifty-companion/main/Public/Screen%20Shot%202021-07-04%20at%201.34.51%20PM.png?token=ADEZWHJWO6QOKYELCDUSRJLBHOQXG)
+![Dashboard](https://raw.githubusercontent.com/AmineMersoul/swifty-companion/main/Public/Screen%20Shot%202021-07-04%20at%201.35.01%20PM.png?token=ADEZWHOUMWGERPOG6ZHOKODBHOQXC)
+![dashboard on ipad](https://raw.githubusercontent.com/AmineMersoul/swifty-companion/main/Public/Screen%20Shot%202021-07-04%20at%201.39.56%20PM.png?token=ADEZWHP3ET5YU4RZD6TWCPTBHOQ26)
